@@ -214,6 +214,20 @@ void nn(const std::vector<std::string> args) {
   exit(0);
 }
 
+void nn_file(const std::vector<std::string> args) {
+  int32_t k;
+  if (args.size() == 5) {
+    k = std::stoi(args[3]);
+  } else {
+    printNNUsage();
+    exit(EXIT_FAILURE);
+  }
+  FastText fasttext;
+  fasttext.loadModel(std::string(args[2]));
+  fasttext.nn_file(k, std::string(args[4]));
+  exit(0);
+}
+
 void analogies(const std::vector<std::string> args) {
   int32_t k;
   if (args.size() == 3) {
@@ -258,6 +272,8 @@ int main(int argc, char** argv) {
     printNgrams(args);
   } else if (command == "nn") {
     nn(args);
+  } else if (command == "nn_file") {
+    nn_file(args);
   } else if (command == "analogies") {
     analogies(args);
   } else if (command == "predict" || command == "predict-prob" ) {

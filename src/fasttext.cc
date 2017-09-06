@@ -12,6 +12,8 @@
 #include <math.h>
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <sstream>
 #include <iomanip>
 #include <thread>
@@ -485,6 +487,31 @@ void FastText::nn(int32_t k) {
     findNN(wordVectors, queryVec, k, banSet);
     std::cout << "Query word? ";
   }
+}
+
+void FastText::nn_file(int32_t k, std::string filename) {
+  int i;
+  std::string queryWord;
+  Vector queryVec(args_->dim);
+  Matrix wordVectors(dict_->nwords(), args_->dim);
+  precomputeWordVectors(wordVectors);
+  std::set<std::string> banSet;
+  std::string line;
+  std::ifstream myfile(filename);
+  i = 0;
+  if(myfile.is_open())
+  {
+    while(getline(myfile,queryWord)){
+      banSet.clear();
+      banSet.insert(queryWord);
+      getVector(queryVec, queryWord);
+      i++;
+      std::cout << "queryWord " << i  << " : " << queryWord << std::endl;
+      findNN(wordVectors, queryVec, k, banSet);
+      std::cout << std::endl;
+    }
+  }
+  myfile.close();
 }
 
 void FastText::analogies(int32_t k) {

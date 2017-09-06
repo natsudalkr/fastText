@@ -18,7 +18,7 @@
 #include <atomic>
 #include <memory>
 #include <set>
-
+#include <string>
 #include "args.h"
 #include "dictionary.h"
 #include "matrix.h"
@@ -83,6 +83,7 @@ class FastText {
     void findNN(const Matrix&, const Vector&, int32_t,
                 const std::set<std::string>&);
     void nn(int32_t);
+    void nn_file(int32_t, std::string filename);
     void analogies(int32_t);
     void trainThread(int32_t);
     void train(std::shared_ptr<Args>);
